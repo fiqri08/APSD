@@ -1,0 +1,13 @@
+# Algoritma enghitung nilai rata-rata mahasiswa
+1. Mulai
+2. Masukkan inputan
+  a. NIM mahasiswa
+  b. Nama Mahasiswa
+  c. Nilai tugas 1
+  d. Nilai tugas 2
+  e. Nilai tugas 3
+3. Program memproses rata-rata nilai mahasiswa dengan rumus nilai tugas 1 ditambah nilai tugas 2 ditambah nilai tugas 3 dibagi 3
+4. Program menampilkan keluaran
+  "Nim ... Siswa yang bernama ... 
+  Memperoleh nilai rata-rata ... dari hasil tugas yang diikutinya"
+5.selesai
