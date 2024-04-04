@@ -1,0 +1,19 @@
+# Algoritma enghitung nilai akhir mahasiswa
+1. Mulai
+2. Masukkan inputan
+  a. Nama siswa
+  b. Nilai murni Keaktifan
+  c. NIlai murni tugas
+  d. Nilai murni ujian
+3. Program memproses rata-rata nilai mahasiswa dengan rumus :
+  a. Nilai keaktifan mewakili 20% nilai akhir
+  b. Nilai tugas mewakili 50% nilai akhir
+  c. Nilai ujian mewakili 30% nilai akhir
+4. Program Menampilkan keluaran
+  "Siswa yang bernama ...
+  Dengan Nilai Persentasi Yang dihasilkan.
+  Nilai Keaktifan * 20%: ...
+  Nilai Tugas * 50%: ...
+  Nilai Ujian * 30%: ...
+  Jadi Siswa yang bernama ... memperoleh nilai akhir sebesar ... "
+5. Selesai
