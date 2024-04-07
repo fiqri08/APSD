@@ -1,0 +1,26 @@
+# Algoritma Menghitung Nilai Akhir Mahasiswa
+1.	Mulai
+2.	Masukan inputan :
+  a.	Nama Siswa 
+  b.	Nilai Keaktifan
+  c.	Nilai Tugas 
+  d.	Nilai Ujian
+3.	Program memproses data dimana :
+  a.	Nilai Keaktifan mewakili 20% Nilai Akhir
+  b.	Nilai Tugas mewakili 50% Nilai Akhir
+  c.	Nilai Ujian mewakili 30% Nilai Akhir
+  d.	Nilai Akhir dihitung dari Nilai Keaktifan ditambah Nilai Tugas ditambah Nilai Ujian
+  e.	Menentukan grade dari nilai siswa dengan kriteria :
+      1.	Jika Nilai Akhir yang dihasilkan lebih dari 80, maka diberi grade “A”
+      2.	Jika Nilai Akhir yang dihasilkan lebih dari 70, maka diberi grade “B”
+      3.	Jika Nilai Akhir yang dihasilkan lebih dari 56, maka diberi grade “C”
+      4.	Jika Nilai Akhir yang dihasilkan lebih dari 46, maka diberi grade “D”
+      5.	Selain itu diberi grade “E”
+4.	Program menampilkan keluaran :
+“Siswa yang bernama ...
+Dengan Nilai Persentasi Yang dihasilkan.
+Nilai Keaktifan * 20% : ...
+Nilai Tugas * 30% : ...
+Nilai Ujian * 50% : ...
+Jadi Siswa yang bernama ... memperoleh nilai akhir sebesar .... dengan grade ...”
+5.	Selesai.
