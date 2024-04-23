@@ -1,5 +1,6 @@
 #include <iostream>
-#include <conio.h> // Untuk getch() dan clrscr()
+#include <conio.h>
+#include <string> // Untuk getch() dan clrscr()
 
 using namespace std;
 
@@ -48,8 +49,8 @@ int main() {
     cout << "Siswa yang bernama " << nama_siswa << endl;
     cout << "Dengan Nilai Persentasi Yang dihasilkan." << endl;
     cout << "Nilai Keaktifan * 20%: " << NilaiKeaktifan * 0.20 << endl;
-    cout << "Nilai Tugas * 50%: " << NilaiTugas * 0.50 << endl;
-    cout << "Nilai Ujian * 30%: " << NilaiUjian * 0.30 << endl;
+    cout << "Nilai Tugas * 30%: " << NilaiTugas * 0.30 << endl;
+    cout << "Nilai Ujian * 50%: " << NilaiUjian * 0.50 << endl;
     cout << "Jadi siswa yang bernama " << nama_siswa;
     cout << " memperoleh nilai akhir sebesar " << nilai_akhir;
     cout << " dengan grade " << grade << endl;
