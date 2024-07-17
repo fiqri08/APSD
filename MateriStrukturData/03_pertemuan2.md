@@ -244,7 +244,69 @@ int main() {
 
 
 ```
+ ### Latihan 2 Transverse:
+ ```cpp
+ #include <iostream>
+using namespace std;
 
+// Struktur node untuk pohon biner
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+// Fungsi untuk preorder traversal
+void preorderTraversal(Node* node) {
+    if (node == nullptr) return;
+    cout << node->data << " "; // Kunjungi root
+    preorderTraversal(node->left); // Traverse subpohon kiri
+    preorderTraversal(node->right); // Traverse subpohon kanan
+}
+
+// Fungsi untuk inorder traversal
+void inorderTraversal(Node* node) {
+    if (node == nullptr) return;
+    inorderTraversal(node->left); // Traverse subpohon kiri
+    cout << node->data << " "; // Kunjungi root
+    inorderTraversal(node->right); // Traverse subpohon kanan
+}
+
+// Fungsi untuk postorder traversal
+void postorderTraversal(Node* node) {
+    if (node == nullptr) return;
+    postorderTraversal(node->left); // Traverse subpohon kiri
+    postorderTraversal(node->right); // Traverse subpohon kanan
+    cout << node->data << " "; // Kunjungi root
+}
+
+// Fungsi utama
+int main() {
+    // Membuat pohon biner sederhana
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    root->right->left = new Node(6);
+    root->right->right = new Node(7);
+
+    cout << "Preorder Traversal: ";
+    preorderTraversal(root);
+    cout << endl;
+
+    cout << "Inorder Traversal: ";
+    inorderTraversal(root);
+    cout << endl;
+
+    cout << "Postorder Traversal: ";
+    postorderTraversal(root);
+    cout << endl;
+
+    return 0;
+}
+```
 
 
 ## 9. Graph
@@ -1465,6 +1527,7 @@ Dalam studi kasus ini, kita akan mengimplementasikan sebuah sistem pengelolaan p
 
 ```cpp
 #include <iostream>
+#include <fstream>
 #include <list>
 #include <queue>
 #include <unordered_map>
@@ -1476,6 +1539,10 @@ public:
     string name;
     double price;
 
+    // Konstruktor default
+    MenuItem() : id(0), name(""), price(0.0) {}
+
+    // Konstruktor dengan parameter untuk menginisialisasi item menu
     MenuItem(int id, string name, double price) {
         this->id = id;
         this->name = name;
@@ -1486,16 +1553,19 @@ public:
 class Order {
 public:
     int orderId;
-    list<MenuItem> items;
+    list<MenuItem> items; // Daftar item dalam pesanan
 
+    // Konstruktor untuk menginisialisasi pesanan dengan ID
     Order(int orderId) {
         this->orderId = orderId;
     }
 
+    // Menambahkan item ke dalam pesanan
     void addItem(MenuItem item) {
         items.push_back(item);
     }
 
+    // Menghitung total harga dari semua item dalam pesanan
     double calculateTotal() {
         double total = 0;
         for (auto item : items) {
@@ -1506,30 +1576,71 @@ public:
 };
 
 class Restaurant {
-    unordered_map<int, MenuItem> menu;
-    queue<Order> orderQueue;
+    unordered_map<int, MenuItem> menu; // Menu restoran
+    queue<Order> orderQueue; // Antrian pesanan
     int nextOrderId;
 
+    void saveMenuToFile() {
+        ofstream file("menu.txt");
+        if (!file) {
+            cout << "Failed to open menu file for writing." << endl;
+            return;
+        }
+        for (auto &pair : menu) {
+            file << pair.second.id << "," << pair.second.name << "," << pair.second.price << endl;
+        }
+        file.close();
+    }
+
+    void saveOrderToFile(Order& order) {
+        ofstream file("orders.txt", ios::app);
+        if (!file) {
+            cout << "Failed to open orders file for writing." << endl;
+            return;
+        }
+        file << "Order #" << order.orderId << endl;
+        for (auto item : order.items) {
+            file << "- " << item.name << ": Rp" << item.price << endl;
+        }
+        file << "Total: Rp" << order.calculateTotal() << endl << endl;
+        file.close();
+    }
+
 public:
+    // Konstruktor untuk menginisialisasi restoran
     Restaurant() {
         nextOrderId = 1;
     }
 
+    // Menambahkan item ke dalam menu restoran
     void addMenuItem(int id, string name, double price) {
         MenuItem newItem(id, name, price);
         menu[id] = newItem;
+        cout << "Menu item added: " << name << " with price Rp" << price << endl;
+        saveMenuToFile();
     }
 
+    // Membuat pesanan baru dan menambahkannya ke antrian pesanan
     void placeOrder(list<int> itemIds) {
+        if (menu.empty()) {
+            cout << "Menu is empty. Please add menu items first." << endl;
+            return;
+        }
+
         Order newOrder(nextOrderId++);
         for (int id : itemIds) {
             if (menu.find(id) != menu.end()) {
                 newOrder.addItem(menu[id]);
+            } else {
+                cout << "Item with id " << id << " not found in menu." << endl;
             }
         }
         orderQueue.push(newOrder);
+        cout << "Order #" << newOrder.orderId << " placed." << endl;
+        saveOrderToFile(newOrder);
     }
 
+    // Memproses pesanan dari antrian
     void processOrder() {
         if (orderQueue.empty()) {
             cout << "No orders to process." << endl;
@@ -1541,30 +1652,107 @@ public:
         cout << "Processing order #" << currentOrder.orderId << endl;
         cout << "Items:" << endl;
         for (auto item : currentOrder.items) {
-            cout << "- " << item.name << ": $" << item.price << endl;
+            cout << "- " << item.name << ": Rp" << item.price << endl;
         }
-        cout << "Total: $" << currentOrder.calculateTotal() << endl;
+        cout << "Total: Rp" << currentOrder.calculateTotal() << endl;
+    }
+
+    // Menampilkan menu restoran
+    void displayMenu() {
+        if (menu.empty()) {
+            cout << "Menu is empty." << endl;
+            return;
+        }
+
+        cout << "Menu:" << endl;
+        for (auto &pair : menu) {
+            cout << pair.second.id << ". " << pair.second.name << " - Rp" << pair.second.price << endl;
+        }
+    }
+
+    // Menampilkan tagihan untuk pesanan terakhir dalam antrian
+    void displayBill() {
+        if (orderQueue.empty()) {
+            cout << "No orders to display bill for." << endl;
+            return;
+        }
+
+        Order currentOrder = orderQueue.back();
+        cout << "Bill for order #" << currentOrder.orderId << endl;
+        cout << "Items:" << endl;
+        for (auto item : currentOrder.items) {
+            cout << "- " << item.name << ": Rp" << item.price << endl;
+        }
+        cout << "Total: Rp" << currentOrder.calculateTotal() << endl;
     }
 };
 
 int main() {
     Restaurant myRestaurant;
+    int choice;
 
-    myRestaurant.addMenuItem(1, "Burger", 5.99);
-    myRestaurant.addMenuItem(2, "Fries", 2.99);
-    myRestaurant.addMenuItem(3, "Soda", 1.49);
+    do {
+        cout << "Restaurant Menu:" << endl;
+        cout << "1. Add Menu Item" << endl;
+        cout << "2. Place Order" << endl;
+        cout << "3. Process Order" << endl;
+        cout << "4. Display Menu" << endl;
+        cout << "5. Display Bill" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    list<int> order1 = {1, 2};
-    list<int> order2 = {2, 3, 1};
+        switch (choice) {
+        case 1: {
+            int id;
+            string name;
+            double price;
+            cout << "Enter item id: ";
+            cin >> id;
+            cout << "Enter item name: ";
+            cin.ignore(); // To ignore the newline character left by previous input
+            getline(cin, name);
+            cout << "Enter item price: ";
+            cin >> price;
+            myRestaurant.addMenuItem(id, name, price);
+            break;
+        }
+        case 2: {
+            int numItems;
+            cout << "Enter number of items in the order: ";
+            cin >> numItems;
+            list<int> itemIds;
+            for (int i = 0; i < numItems; ++i) {
+                int itemId;
+                cout << "Enter item id: ";
+                cin >> itemId;
+                itemIds.push_back(itemId);
+            }
+            myRestaurant.placeOrder(itemIds);
+            break;
+        }
+        case 3:
+            myRestaurant.processOrder();
+            break;
+        case 4:
+            myRestaurant.displayMenu();
+            break;
+        case 5:
+            myRestaurant.displayBill();
+            break;
+        case 6:
+            cout << "Exiting..." << endl;
+            break;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
 
-    myRestaurant.placeOrder(order1);
-    myRestaurant.placeOrder(order2);
-
-    myRestaurant.processOrder();
-    myRestaurant.processOrder();
+        cout << endl;
+    } while (choice != 6);
 
     return 0;
 }
+
 
 ```
 
